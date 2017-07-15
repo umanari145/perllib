@@ -1,0 +1,5 @@
+datasource: mysql
+host: d1.donow.jp
+database: work_management
+password: work_management_pass
+user: work_user
