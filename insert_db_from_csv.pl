@@ -12,11 +12,16 @@ use utf8;
 
 
 my $conf_file = 'config.yml';
-my $dbUtil = dbUtil->new;
 my $config = YAML::Syck::LoadFile($conf_file);
+my $dbUtil = dbUtil->new(
+   'datasource' => $config->{"datasource"}, 
+   'host'       => $config->{"host"},
+   'database'   => $config->{"database"},
+   'password'   => $config->{"password"},
+   'user'       => $config->{"user"}
+);
 
-$dbUtil->connection($config);
-
+$dbUtil->connection;
 my @files =('worktimes','logintimes','activeworktimes');
 
 for my $file (@files) {
@@ -26,7 +31,7 @@ for my $file (@files) {
         my $lines = &load_csv($file_path);
         $dbUtil->set_table($file);
         $dbUtil->delete;
-        $dbUtil->insert_bulk($lines);
+	$dbUtil->insert_bulk($lines);
         $dbUtil->commit_dbh;
     }
 }

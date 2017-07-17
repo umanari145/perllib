@@ -10,10 +10,12 @@ use utf8;
 
 sub new {
 
-    my $class = shift;
-    my $self ={};
+    my $class  = shift;
+    my $self ={
+        @_
+    };
+       
     bless $self, $class;
-    return $self;
 
 }
 
@@ -21,13 +23,11 @@ sub connection {
 
     my $self = shift;
 
-    my ($database_config) = @_;
-
-    my $datasource = $database_config->{"datasource"};
-    my $host       = $database_config->{"host"};
-    my $database   = $database_config->{"database"};
-    my $password   = $database_config->{"password"};
-    my $user       = $database_config->{"user"};
+    my $datasource = $self->{"datasource"};
+    my $host       = $self->{"host"};
+    my $database   = $self->{"database"};
+    my $password   = $self->{"password"};
+    my $user       = $self->{"user"};
 
     my $dbh = DBIx::Custom->connect(
         dsn      =>   "dbi:" . $datasource . ":database=" . $database. ";host=". $host .";port=3306",
